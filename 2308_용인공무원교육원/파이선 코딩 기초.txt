@@ -1,0 +1,288 @@
+2. 파이썬 코딩 기초
+
+
+# 숫자형 데이터 계산
+
+2 + 5  
+
+
+# 숫자변수 데이터 다루기
+
+a = 2
+b = 5
+print(a + b)  # 주석
+
+
+# 문자문자 데이터 다루기 (쌍따옴표로 넣기)
+
+a = "파이썬"
+b = "라즈베리"
+print(a, b)
+
+
+3. 파이썬 제어문 다루기
+
+
+# 반복의 기초: if 문
+
+if a < 50:
+    print("lower")
+
+
+# 일정 범위 for 반복문
+for i in range(0, 5, 1)：
+    print(i)
+
+
+# 조건에 도달할 때 까지 반복 while 문
+i = 1
+while i < 9:
+  i+=3
+  print(i)
+
+# sleep을 활용한 조건 반복 while 문
+import time
+i = 1
+while i < 9:
+  i+=3
+  print(i)
+  time.sleep(3)   
+
+
+3. 가상 개인정보 1,000개 생성 연습
+
+# 01_모듈 불러오기
+import time
+import random
+import os
+
+# 02_생성할 개인정보 파일 개수를 정의합니다.
+NUM_SAMPLES = 1000
+
+# 03_이메일 생성에 필요한 샘플 글자 정의
+alphabet_samples = "abcdefghizklmnopqrstuvwxyz1234567890"
+
+# 03_1_choice() 메서드는 무작위로 하나 반환함
+random.choice(alphabet_samples)
+
+# 03_2_이메일 주소 생성 알고리즘
+def random_string(length):
+    result = ""
+    for i in range(length):
+        result += random.choice(alphabet_samples)
+    return result
+
+# 03_3_랜덤 이메일 생성하기
+print(random_string(3)+"@gmail.com")
+print(random_string(8)+"@gmail.com")
+
+# 04_이름 생성에 필요한 샘플 글자 정의
+first_name = "김이박최정강조윤장임"
+middle_name = "민서예지도하주윤채현지"
+last_name = "준윤우원호후서연아은진"
+
+# 04_1_choice() 메서드는 무작위로 하나 반환함
+random.choice(first_name)    
+random.choice(middle_name)
+random.choice(last_name)
+
+# 04_2_사람 이름 생성 알고리즘
+def random_name():
+    result = ""
+    result += random.choice(first_name)  # 성
+    result += random.choice(middle_name) # 이름
+    result += random.choice(last_name)   # 이름
+    return result
+
+# 04_3_무작위로 이름 만들기
+random_name()
+
+# 05_지역 생성에 필요한 샘플 지역명 정의
+gu_sample = ["처인구", "기흥구", "수지구"]
+gu_sample
+
+# 06_저장위치 설정
+os.mkdir("01_파일 생성")
+
+# 07_개인정보 자동생성
+for i in range(NUM_SAMPLES):
+    # 무작위로 이름 생성
+    name = random_name()
+    # 이름으로 텍스트 파일 정의
+    filename = "01_파일 생성/" + str(i) + "_" + name + ".txt"
+    # 파일생성(빈 파일)하고 열기
+    outfile = open(filename, 'w')
+    # 첫번째 줄: 이름
+    outfile.write("이름 : " + name + "\n")
+    # 두번째 줄: 나이
+    outfile.write("나이 : " + str(time.time())[-2:] + "\n")
+    # 세번째 줄: 이메일
+    outfile.write("이메일 : " + random_string(8) + "@yongin.com\n")
+    # 네번째 줄: 지역명
+    outfile.write("지역 : " + random.choice(gu_sample) + "\n")
+    # 다섯번째 줄: 연락처
+    outfile.write("연락처 : 010-" + str(time.time())[-4:] + "-" + str(time.time())[-6:-2] + '\n')
+    # 여섯번째 줄: 성별
+    outfile.write("성별 : " + random.choice(["남성", "여성"]))
+    # 파일 닫기
+    outfile.close()
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. 가상 개인정보 1,000개 하나의 텍스트 파일로 통합하기
+
+# 01_모듈 불러오기
+import time
+import os
+
+# 02_개별 파일 저정된 폴더 위치 설정
+directory = "01_파일 생성"
+
+# 03_폴더의 내용물을 열람해 목록을 생성
+input_files = os.listdir(directory)
+input_files
+
+# 04_저장위치 설정
+os.mkdir("02_파일 결합")
+
+
+# 05_통합 파일명 설정
+outfile_name = "02_파일 결합/통합.txt"
+
+# 05_1_통합 파일 생성(빈파일 만들기)
+out_file = open(outfile_name, 'w')
+
+# 05_2_하나로 합치기
+
+# 파일 순서대로 불러오기
+for filename in input_files:
+    # 모든 텍스트 파일 열기
+    file = open(directory + "/" + filename)
+    # 파일 내용을 content 라는 변수로 읽기
+    content = file.read()
+    # content => outfile 로 복사
+    out_file.write(content + "\n\n")
+    # 파일 종료
+    file.close()
+
+
+5. 1,000개의 개인정보 데이터를 하나의 엑셀로 정리하기
+
+# 01_모듈 불러오기
+import time
+import os
+
+# 02_개별 파일 저정된 폴더 위치 설정
+directory = "01_파일 생성"
+
+# 03_폴더의 내용물을 열람해 목록을 생성
+input_files = os.listdir(directory)
+input_files
+
+# 04_저장위치 설정
+os.mkdir("03_엑셀 결합")
+
+# 05-1_통합 파일명 설정
+outfile_name = "03_엑셀 결합/통합.csv"
+
+
+# 05-2_통합 파일명 생성(빈 csv 파일 생성)
+out_file = open(outfile_name, 'w')
+
+# 05_3_헤더 관련 변수 정의
+headers = []
+outfile_has_header = False
+
+# 05_4_하나로 합치기
+
+# 파일 순서대로 불러오기
+for filename in input_files:
+    # 모든 텍스트 파일 열기
+    file = open(directory + "/" + filename)
+    # 파일의 내용을 저장할 리스트 만들기(빈 리스트)
+    contents = []
+    # 각 파일의 내용을 한 줄씩 읽기
+    for line in file:
+        # 양식과 내용을 분리
+
+        # (1) 만약 읽어들인 줄에 콜론(:)이 있다면    
+        if ":" in line:                           
+        # (2) 콜론을 기준으로 왼쪽(헤더)과 오른쪽(내용)으로 구분
+            splits = line.split(":")              
+        # (3) 오른쪽 부분만 가져와 앞뒤 공백 제거[stripe]하고, contents에 저장(append)
+            contents.append(splits[-1].strip())   
+            # 헤더 정리. 최초 1회만 실행
+            if len(contents) > len(headers):
+                headers.append(splits[0].strip())
+    # 헤더를 파일에 입력. 최초 1회만 실행
+    if not outfile_has_header:
+        header = ", ".join(headers)
+        out_file.write(header)
+        outfile_has_header = True
+    # 결과물 파일에 내용물을 입력
+    new_line = ", ".join(contents)
+    out_file.write("\n" + new_line)
+    # 읽어온 파일을 종료
+    file.close()
+# 결과물 파일을 종료
+out_file.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+for i in files:
+	file=open(directory+"/"+i)
+	contents=[]
+		for j in file:
+			if ":" in j:
+			splits=line.split(":")
+			contents.append(splits[-1].strip())
+			if len(contents)>len(headers):
+				headers.append(splits[0].strip())
+				if not outfile_has_header:
+				header=",".join(headers)
+				out_file.write(headedr)
+				outfile_has_header=True
+				new_line=",".join(contents)
+				out_file.write("\n"+new_line)
+				file.close()
+			out_file.close() 
